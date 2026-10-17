@@ -1,0 +1,9 @@
+fastmcp>=4.1.0
+pandas>=3.0.0
+networkx>=3.4.0
+streamlit>=1.40.0
+requests>=2.32.0
+pydantic>=2.10.0
+pytest>=8.3.0
+python-dotenv>=1.0.0
+google-genai>=1.0.0

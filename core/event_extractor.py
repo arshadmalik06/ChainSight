@@ -56,14 +56,14 @@ def extract_event_rule_heuristic(text: str, source_type: SourceType = SourceType
         etype = DisruptionType.PORT_CONGESTION
         dur = 72.0
         sev = SeverityLevel.HIGH
-    elif "shutdown" in text_lower or "factory" in text_lower or "plant" in text_lower or "fire" in text_lower:
+    elif "flood" in text_lower or "inland" in text_lower or "rain" in text_lower or "derailment" in text_lower or "rail" in text_lower or "washout" in text_lower:
+        etype = DisruptionType.INLAND_FLOODING
+        dur = 36.0
+        sev = SeverityLevel.HIGH
+    elif "shutdown" in text_lower or "factory" in text_lower or "fire" in text_lower:
         etype = DisruptionType.SUPPLIER_SHUTDOWN
         dur = 96.0
         sev = SeverityLevel.CRITICAL
-    elif "flood" in text_lower or "inland" in text_lower or "rain" in text_lower:
-        etype = DisruptionType.INLAND_FLOODING
-        dur = 36.0
-        sev = SeverityLevel.MEDIUM
     elif "strike" in text_lower or "labor" in text_lower or "walkout" in text_lower:
         etype = DisruptionType.LABOR_STRIKE
         dur = 48.0
@@ -115,7 +115,7 @@ def extract_event_rule_heuristic(text: str, source_type: SourceType = SourceType
         location=loc,
         severity=sev,
         expected_duration_hours=dur,
-        affected_entity_types=["port" if "port" in loc.lower() or etype == DisruptionType.PORT_CONGESTION else "supplier"],
+        affected_entity_types=["port"] if any(w in text_lower or w in loc.lower() for w in ["port", "terminal", "harbor", "berth"]) or etype == DisruptionType.PORT_CONGESTION else ["supplier"],
         source_type=source_type,
         extraction_confidence=0.88 if not req_confirm else 0.50,
         assumptions=assumptions,
