@@ -10,9 +10,45 @@ ChainSight is an AI-powered agentic supply-chain disruption response system. It 
 
 ---
 
-## 🏗️ Architecture & Detailed Workflow
+## 🔄 System Workflow & Architecture
 
-### End-to-End Autonomous Agent Pipeline
+### High-Level Execution Workflow
+
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                            CHAINSIGHT WORKFLOW                              │
+└─────────────────────────────────────────────────────────────────────────────┘
+  [Disruption Advisory] (Free Text / Port Bulletin / Uploaded Image)
+         │
+         ▼
+  [1. Event Extraction] ──▶ Extracts Location, Severity, Event Type & Duration
+         │                  (Uses Gemini 2.5 Flash with Deterministic Offline Rule Fallback)
+         ▼
+  [2. Memory Recall]    ──▶ Queries SQLite Store (`chainsight_memory.db`) for Similar Incidents
+         │
+         ▼
+  [3. Self-Healing Tool]──▶ Fetches Live Open-Meteo Weather (Wind, Gusts, Storm Warning)
+         │                  (Automatic Backoff Retry + Validated Cache Fallback if Down)
+         ▼
+  [4. Risk Propagation] ──▶ Traverses NetworkX Directed Supply Graph:
+         │                  Supplier ──▶ Port ──▶ Assembly Plant ──▶ DC ──▶ Customer
+         │                  • Identifies Directly Impacted & Downstream Nodes
+         │                  • Filters In-Transit Shipments & Computes Total Cargo $ at Risk
+         ▼
+  [5. Mitigation Engine]──▶ Checks Feasibility Constraints (Capacity, Route Feasibility)
+         │                  • Evaluates Incremental Cost vs. Delay vs. Residual Risk
+         │                  • Ranks Actions via Objective Composite Scoring
+         ▼
+  [6. Simulated Action] ──▶ Previews Customer Advisories (`SIMULATED_NOT_DISPATCHED`)
+         │
+         ▼
+  [7. Memory Logging]   ──▶ Persists Action & Expected Outcome to Incident Memory
+         │
+         ▼
+  [8. Resolution Audit] ──▶ Emits Verifiable Resolution Report with SHA-256 Fingerprint
+```
+
+### Interactive Pipeline Flow (Mermaid)
 
 ```mermaid
 flowchart TD
@@ -46,6 +82,18 @@ flowchart TD
     P & L & R & H --> T[Step 8: Cryptographic Resolution Report]
     T -->|SHA-256 Hash Fingerprinting| U[Final Verifiable Audit Report]
 ```
+
+### User Operational Workflow (How to Use ChainSight)
+
+1. **Submit Disruption**:
+   - In the frontend ([http://localhost:8501](http://localhost:8501)) or via REST API (`POST /api/analyze`), input an advisory alert text or upload a weather/port bulletin image.
+   - Alternatively, choose one of the 5 quick-load benchmark presets.
+2. **Review Extracted Impact**:
+   - ChainSight classifies the incident type (`CYCLONE`, `PORT_CONGESTION`, `SUPPLIER_SHUTDOWN`, `INLAND_FLOODING`), extracts location coordinates, and calculates total shipment value at risk.
+3. **Inspect Evaluated Trade-Offs**:
+   - Review the candidate action comparison matrix comparing options by cost, residual delay, and risk score. Capacity-infeasible options are marked with explicit rejection reasons.
+4. **Audit and Verify**:
+   - Inspect the self-healing telemetry logs for retries/cache fallbacks and verify the immutable SHA-256 traceability fingerprint for compliance.
 
 ### Detailed Pipeline Stages
 
