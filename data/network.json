@@ -1,0 +1,225 @@
+{
+  "nodes": [
+    {
+      "id": "SUP-01",
+      "name": "Apex Semiconductor Co.",
+      "type": "supplier",
+      "location": "Kaohsiung, Taiwan",
+      "capacity_units_day": 2000,
+      "base_risk": 5.0
+    },
+    {
+      "id": "SUP-02",
+      "name": "Nippon Precision Optics",
+      "type": "supplier",
+      "location": "Yokohama, Japan",
+      "capacity_units_day": 1500,
+      "base_risk": 4.0
+    },
+    {
+      "id": "SUP-03",
+      "name": "Siam Battery Components",
+      "type": "supplier",
+      "location": "Rayong, Thailand",
+      "capacity_units_day": 2500,
+      "base_risk": 8.0
+    },
+    {
+      "id": "SUP-04",
+      "name": "Alt-Pacific Chips (Backup)",
+      "type": "supplier",
+      "location": "Hsinchu, Taiwan",
+      "capacity_units_day": 1800,
+      "base_risk": 6.0
+    },
+    {
+      "id": "PORT-01",
+      "name": "Port of Shanghai",
+      "type": "port",
+      "location": "Shanghai, China",
+      "coordinates": {"lat": 31.2304, "lon": 121.4737},
+      "max_throughput_teu": 47000,
+      "base_risk": 5.0
+    },
+    {
+      "id": "PORT-02",
+      "name": "Port of Kaohsiung",
+      "type": "port",
+      "location": "Kaohsiung, Taiwan",
+      "coordinates": {"lat": 22.6163, "lon": 120.2996},
+      "max_throughput_teu": 10000,
+      "base_risk": 7.0
+    },
+    {
+      "id": "PORT-03",
+      "name": "Port of Busan (Alternate Hub)",
+      "type": "port",
+      "location": "Busan, South Korea",
+      "coordinates": {"lat": 35.1796, "lon": 129.0756},
+      "max_throughput_teu": 22000,
+      "base_risk": 4.0
+    },
+    {
+      "id": "PORT-04",
+      "name": "Port of Los Angeles",
+      "type": "port",
+      "location": "Los Angeles, CA, USA",
+      "coordinates": {"lat": 33.7432, "lon": -118.2673},
+      "max_throughput_teu": 35000,
+      "base_risk": 6.0
+    },
+    {
+      "id": "PORT-05",
+      "name": "Port of Long Beach (Alternate Hub)",
+      "type": "port",
+      "location": "Long Beach, CA, USA",
+      "coordinates": {"lat": 33.7701, "lon": -118.1937},
+      "max_throughput_teu": 30000,
+      "base_risk": 5.0
+    },
+    {
+      "id": "PLANT-01",
+      "name": "Midwest Assembly Plant Alpha",
+      "type": "plant",
+      "location": "Detroit, MI, USA",
+      "daily_burn_rate_units": 800,
+      "buffer_stock_days": 3,
+      "base_risk": 4.0
+    },
+    {
+      "id": "PLANT-02",
+      "name": "Lone Star Electronics Assembly",
+      "type": "plant",
+      "location": "Austin, TX, USA",
+      "daily_burn_rate_units": 600,
+      "buffer_stock_days": 4,
+      "base_risk": 3.0
+    },
+    {
+      "id": "DC-01",
+      "name": "Central Logistics Hub",
+      "type": "distribution_centre",
+      "location": "Chicago, IL, USA",
+      "storage_capacity_sqft": 450000,
+      "base_risk": 3.0
+    },
+    {
+      "id": "DC-02",
+      "name": "Southwest Fulfillment Center",
+      "type": "distribution_centre",
+      "location": "Dallas, TX, USA",
+      "storage_capacity_sqft": 350000,
+      "base_risk": 3.0
+    },
+    {
+      "id": "CUST-01",
+      "name": "HyperTech Retailers",
+      "type": "customer",
+      "location": "New York, NY, USA",
+      "tier": "Tier-1 Strategic",
+      "base_risk": 2.0
+    },
+    {
+      "id": "CUST-02",
+      "name": "AeroDynamics Defence Corp",
+      "type": "customer",
+      "location": "Seattle, WA, USA",
+      "tier": "Tier-1 Strategic",
+      "base_risk": 1.0
+    },
+    {
+      "id": "CUST-03",
+      "name": "OmniConsumer Electronics",
+      "type": "customer",
+      "location": "Atlanta, GA, USA",
+      "tier": "Tier-2 Standard",
+      "base_risk": 3.0
+    }
+  ],
+  "edges": [
+    {"source": "SUP-01", "target": "PORT-02", "mode": "truck_feeder", "transit_hours": 4, "alternate_allowed": true},
+    {"source": "SUP-01", "target": "PORT-01", "mode": "coastal_barge", "transit_hours": 36, "alternate_allowed": true},
+    {"source": "SUP-02", "target": "PORT-01", "mode": "ocean_feeder", "transit_hours": 48, "alternate_allowed": true},
+    {"source": "SUP-02", "target": "PORT-03", "mode": "ocean_feeder", "transit_hours": 24, "alternate_allowed": true},
+    {"source": "SUP-03", "target": "PORT-01", "mode": "ocean_feeder", "transit_hours": 72, "alternate_allowed": true},
+    {"source": "SUP-04", "target": "PORT-02", "mode": "truck_feeder", "transit_hours": 6, "alternate_allowed": true},
+    {"source": "SUP-04", "target": "PORT-03", "mode": "ocean_express", "transit_hours": 30, "alternate_allowed": true},
+
+    {"source": "PORT-02", "target": "PORT-04", "mode": "transpacific_ocean", "transit_hours": 336, "alternate_route": "PORT-02 -> PORT-05"},
+    {"source": "PORT-01", "target": "PORT-04", "mode": "transpacific_ocean", "transit_hours": 312, "alternate_route": "PORT-01 -> PORT-05"},
+    {"source": "PORT-03", "target": "PORT-04", "mode": "transpacific_ocean", "transit_hours": 288, "alternate_route": "PORT-03 -> PORT-05"},
+    {"source": "PORT-02", "target": "PORT-05", "mode": "transpacific_ocean", "transit_hours": 340, "alternate_route": null},
+    {"source": "PORT-01", "target": "PORT-05", "mode": "transpacific_ocean", "transit_hours": 316, "alternate_route": null},
+    {"source": "PORT-03", "target": "PORT-05", "mode": "transpacific_ocean", "transit_hours": 292, "alternate_route": null},
+
+    {"source": "PORT-04", "target": "PLANT-01", "mode": "intermodal_rail", "transit_hours": 72, "alternate_mode": "dedicated_team_truck"},
+    {"source": "PORT-04", "target": "PLANT-02", "mode": "intermodal_rail", "transit_hours": 60, "alternate_mode": "dedicated_team_truck"},
+    {"source": "PORT-05", "target": "PLANT-01", "mode": "intermodal_rail", "transit_hours": 72, "alternate_mode": "dedicated_team_truck"},
+    {"source": "PORT-05", "target": "PLANT-02", "mode": "intermodal_rail", "transit_hours": 60, "alternate_mode": "dedicated_team_truck"},
+
+    {"source": "PLANT-01", "target": "DC-01", "mode": "regional_freight", "transit_hours": 8, "alternate_allowed": true},
+    {"source": "PLANT-02", "target": "DC-02", "mode": "regional_freight", "transit_hours": 6, "alternate_allowed": true},
+    {"source": "PLANT-01", "target": "DC-02", "mode": "interstate_truck", "transit_hours": 22, "alternate_allowed": true},
+    {"source": "PLANT-02", "target": "DC-01", "mode": "interstate_truck", "transit_hours": 20, "alternate_allowed": true},
+
+    {"source": "DC-01", "target": "CUST-01", "mode": "express_ground", "transit_hours": 18, "priority_sla_hours": 24},
+    {"source": "DC-01", "target": "CUST-03", "mode": "standard_ground", "transit_hours": 16, "priority_sla_hours": 36},
+    {"source": "DC-02", "target": "CUST-02", "mode": "air_freight", "transit_hours": 12, "priority_sla_hours": 18},
+    {"source": "DC-02", "target": "CUST-03", "mode": "standard_ground", "transit_hours": 14, "priority_sla_hours": 36}
+  ],
+  "mitigation_options_catalog": [
+    {
+      "id": "MIT-ALT-PORT-01",
+      "strategy_type": "alternate_port",
+      "title": "Reroute Ocean Freight to Port of Long Beach (PORT-05)",
+      "applicable_targets": ["PORT-04"],
+      "cost_per_teu": 420.0,
+      "delay_delta_hours": -48.0,
+      "residual_risk_reduction": 0.70,
+      "requires_capacity_check": true,
+      "max_capacity_teu": 5000
+    },
+    {
+      "id": "MIT-ALT-PORT-02",
+      "strategy_type": "alternate_port",
+      "title": "Divert Feeder Cargo to Port of Busan (PORT-03)",
+      "applicable_targets": ["PORT-01", "PORT-02"],
+      "cost_per_teu": 650.0,
+      "delay_delta_hours": -60.0,
+      "residual_risk_reduction": 0.65,
+      "requires_capacity_check": true,
+      "max_capacity_teu": 4000
+    },
+    {
+      "id": "MIT-ALT-SUP-01",
+      "strategy_type": "alternate_supplier",
+      "title": "Activate Secondary Contract with Alt-Pacific Chips (SUP-04)",
+      "applicable_targets": ["SUP-01"],
+      "cost_per_unit": 38.0,
+      "delay_delta_hours": -72.0,
+      "residual_risk_reduction": 0.80,
+      "requires_capacity_check": true,
+      "max_capacity_units": 1500
+    },
+    {
+      "id": "MIT-EXPEDITE-TRUCK-01",
+      "strategy_type": "expedite_freight",
+      "title": "Deploy Hot-Shot Dedicated Team Trucking to Assembly Plants",
+      "applicable_targets": ["PORT-04", "PORT-05"],
+      "cost_fixed_per_shipment": 3200.0,
+      "delay_delta_hours": -36.0,
+      "residual_risk_reduction": 0.50,
+      "requires_capacity_check": false
+    },
+    {
+      "id": "MIT-INVENTORY-REALLOC-01",
+      "strategy_type": "inventory_reallocation",
+      "title": "Inter-DC Buffer Rebalance: Shift Stock from DC-02 to DC-01",
+      "applicable_targets": ["PLANT-01", "DC-01"],
+      "cost_fixed_per_shipment": 1800.0,
+      "delay_delta_hours": -24.0,
+      "residual_risk_reduction": 0.45,
+      "requires_capacity_check": false
+    }
+  ]
+}
