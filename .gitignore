@@ -1,43 +1,54 @@
-# Python
+# Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
 *$py.class
 *.so
 .Python
+
+# Virtual Environments
 env/
 venv/
 .venv/
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
-pip-wheel-metadata/
-share/python-wheels/
-*.egg-info/
-.installed.cfg
-*.egg
+ENV/
+env.bak/
+venv.bak/
 
-# Environment variables & secrets
+# Environment Variables & Secrets
 .env
-*.env.local
+.env.*
+!.env.example
+*.pem
+*.key
 
-# Testing & Coverage
+# Testing & Type Checking
 .pytest_cache/
 .coverage
 htmlcov/
+.mypy_cache/
+.ruff_cache/
 
-# Local databases & run artifacts
+# Local databases & state
 *.db
+*.sqlite
 *.sqlite3
 memory/chainsight_memory.db
-runs/
+
+# IDE & Editor Files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs & Temporary files
+*.log
 logs/
+runs/
+tmp/
+temp/
 .system_generated/
+
+# Streamlit local state
+.streamlit/
